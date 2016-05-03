@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//ucore/case.py=utf-8
+encoding//ucore/cloudLogAnalyse.py=utf-8
+encoding//ucore/connect.py=utf-8
+encoding//ucore/core.py=utf-8
+encoding//ucore/html.py=utf-8
+encoding//ucore/log.py=utf-8
+encoding//ucore/pygal/__init__.py=utf-8
+encoding//ucore/pygal/graph/box.py=utf-8
+encoding//ucore/pygal/graph/line.py=utf-8
+encoding/runner.py=utf-8
