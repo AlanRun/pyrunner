@@ -23,11 +23,11 @@ class ADB(object):
             self.adb_command = [self.adbd]
         except:
             raise AdbException("Error: is `adb` installed ??")
-        self.__retry_connection()
+        self.retry_connection()
         self.adb_command = [ self.adbd, '-s', self.id ]
         self.adbsh_command = [ self.adbd, '-s', self.id, 'shell' ]
 
-    def __retry_connection(self):
+    def retry_connection(self):
         flag = False
         for _retry_times in range(1,RETRY_CONNECTION_TIMES+1):
             print 'retry connect to %s' %self.id
@@ -41,32 +41,34 @@ class ADB(object):
     def _connection(self):
         devices = self.__adb('devices')
 
-        if not self.__isNetworkConnection():
-            if not str(devices).__contains__(self.id):
-                print 'device %s need to plugin' %self.id
-                return False
-            else:
-                self.adb('root')
-                self.adb('remount')
-                return True
+#         if not self.__isNetworkConnection():
+        if not str(devices).__contains__(self.id):
+            print 'device %s need to plugin' %self.id
+            return False
         else:
-            if not str(devices).__contains__(self.id):
-                # self.adb('disconnect')
-                r = self.__adb('connect %s' %self.id)
-                if str(r).__contains__('unable to connect to'):
-                    print 'unable to connect to %s' %self.id
-                    return False
-                time.sleep(1)
-
-            r = self.adb('root')
-            log.debug('root devices:\n %s' %r)
-            if 'adbd is already running as root' not in r:
-                time.sleep(2)
-                self.__adb('connect %s' %self.id)
-                time.sleep(1)
+            self.adb('root')
+            time.sleep(5)
             self.adb('remount')
-            log.debug('remount devices:\n %s' %r)
+            time.sleep(5)
             return True
+#         else:
+#             if not str(devices).__contains__(self.id):
+#                 # self.adb('disconnect')
+#                 r = self.__adb('connect %s' %self.id)
+#                 if str(r).__contains__('unable to connect to'):
+#                     print 'unable to connect to %s' %self.id
+#                     return False
+#                 time.sleep(1)
+# 
+#             r = self.adb('root')
+#             log.debug('root devices:\n %s' %r)
+#             if 'adbd is already running as root' not in r:
+#                 time.sleep(2)
+#                 self.__adb('connect %s' %self.id)
+#                 time.sleep(1)
+#             self.adb('remount')
+#             log.debug('remount devices:\n %s' %r)
+#             return True
 
     def __isNetworkConnection(self):
         if re.compile(r'\d+\.\d+\.\d+\.\d+:5555$').match(self.id):
@@ -117,7 +119,7 @@ class ADB(object):
                 pflag = True
                 break;
             print r
-            self.__retry_connection()
+            self.retry_connection()
             r = self.adb("push %s %s/" %(jar, path))
         if not pflag: raise AdbException(r)
     def isAppExists(self, apkPkg):
@@ -146,7 +148,7 @@ class ADB(object):
                     pflag = True
                     break;
                 print r
-                self.__retry_connection()
+                self.retry_connection()
                 self.adbshell("input keyevent 4")
                 self.adbshell("input keyevent 4")
                 self.adbshell("input keyevent 3")

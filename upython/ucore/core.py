@@ -67,7 +67,7 @@ class TextRunner(object):
             runner.wait()
             result, runtime, timecount, info, output = self.__captureResult(os.path.join(os.path.join(self.report_dir, test.logDirectory), log.uiautomator()))
             if (result == 'ERROR'):
-                self.a.__retry_connection()
+                self.a.retry_connection()
             else:
                 break
         print result,"\n"
