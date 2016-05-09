@@ -68,6 +68,8 @@ class TextRunner(object):
             result, runtime, timecount, info, output = self.__captureResult(os.path.join(os.path.join(self.report_dir, test.logDirectory), log.uiautomator()))
             if (result == 'ERROR'):
                 self.a.retry_connection()
+            elif (result == 'FAIL'):
+                continue
             else:
                 break
         print result,"\n"
@@ -192,19 +194,26 @@ class TextRunner(object):
                         result = 'FAIL'
         info = []
         output = []
-        for i in range(len(uilog)):
-            if uilog[i].startswith('INSTRUMENTATION_STATUS: stack='):
-                info.append(uilog[i])
-            if uilog[i].startswith("INSTRUMENTATION_STATUS: fail file"):
-                info.append(uilog[i])
-            if uilog[i].startswith('INSTRUMENTATION_STATUS_CODE: 15'):
-                output.append(uilog[i-1].split("=")[1])
-
-        for line in uilog:
-            if line.startswith('INSTRUMENTATION_STATUS: stack='):
+        if (result == 'ERROR'):
+            for i in range(len(uilog)):
+                output.append(line)
+    
+            for line in uilog:
                 info.append(line)
-            if line.startswith("INSTRUMENTATION_STATUS: fail file"):
-                info.append(line)
+        elif (result == 'FAIL'):
+            for i in range(len(uilog)):
+                if uilog[i].startswith('INSTRUMENTATION_STATUS: stack='):
+                    info.append(uilog[i])
+                if uilog[i].startswith("INSTRUMENTATION_STATUS: fail file"):
+                    info.append(uilog[i])
+                if uilog[i].startswith('INSTRUMENTATION_STATUS_CODE: 15'):
+                    output.append(uilog[i-1].split("=")[1])
+    
+            for line in uilog:
+                if line.startswith('INSTRUMENTATION_STATUS: stack='):
+                    info.append(line)
+                if line.startswith("INSTRUMENTATION_STATUS: fail file"):
+                    info.append(line)
         return result, runtime, timecount, info, output
 
     def catMeminfo(self):

@@ -102,13 +102,13 @@ def HtmlReport(suitetest, dictt):
                 output("</tr>")
             """
 
-            if s.output != []:
-                output('<tr style="background-color:#EE7600">')
-                output('<td colspan="5">')
-                for line in s.output:
-                    output("<div>"+line+"</div>")
-                output("</td>")
-                output("</tr>")
+#             if s.output != []:
+#                 output('<tr style="background-color:#EE7600">')
+#                 output('<td colspan="5">')
+#                 for line in s.output:
+#                     output("<div>"+line+"</div>")
+#                 output("</td>")
+#                 output("</tr>")
 
             if s.errorinfo != "":
                 output('<tr style="background-color:#EE7600">')

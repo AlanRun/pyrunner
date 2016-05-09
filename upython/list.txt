@@ -1,2 +1,0 @@
-AutoTest.test.LanxinTest#testUI_TitleBar_WorkGroup_Create_Back
-AutoTest.test.FunctionTest#testFunction_Interest_RssAccount_NoAccount
