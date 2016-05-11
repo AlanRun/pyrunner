@@ -136,7 +136,7 @@ class ADB(object):
         #    pkg: /data/local/tmp/Settings.apk
         #Success
         print("Install %s"%apkname)
-        r = self.adb("install -f %s" %apkname)
+        r = self.adb("install -r %s" %apkname)
         time.sleep(20)
         pflag = False
         for _retry_times in range(1,6):
@@ -144,15 +144,11 @@ class ADB(object):
                 pflag = True
                 break;
             else:
-                if self.isAppExists(apkPkg):
-                    pflag = True
-                    break;
-                print r
                 self.retry_connection()
                 self.adbshell("input keyevent 4")
                 self.adbshell("input keyevent 4")
                 self.adbshell("input keyevent 3")
-                r = self.adb("install -f %s" %apkname)
+                r = self.adb("install -r %s" %apkname)
             if self.isAppExists(apkPkg):
                 pflag = True
                 break;
