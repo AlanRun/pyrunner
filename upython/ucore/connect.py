@@ -7,7 +7,8 @@ import os
 
 class AdbException(Exception):
     def __init__(self, message):
-        Exception.__init__(self, message+'\n')
+        print '%s\n' %message
+#         Exception.__init__(self, message+'\n')
 
 RETRY_CONNECTION_TIMES = 5
 RETRY_CONNECTION_BETWEEN = 10
@@ -123,13 +124,13 @@ class ADB(object):
             r = self.adb("push %s %s/" %(jar, path))
         if not pflag: raise AdbException(r)
     def isAppExists(self, apkPkg):
-        ishave = self.adbshell('pm list package | grep %s' %apkPkg)
+        ishave = self.adbshell('pm list package | grep -w %s' %apkPkg)
         print("ishave=%s" %ishave)
         if ishave.strip()=='':
-            print("Install app failed.")
+            print("No %s app." %apkPkg)
             return False
         else:
-            print("Install app success.")
+            print("%s app exist." %apkPkg)
             return True
     def install(self, apkname, jar, apkPkg):
         #2685 KB/s (2433480 bytes in 0.884s)

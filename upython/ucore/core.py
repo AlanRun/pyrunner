@@ -208,7 +208,6 @@ class TextRunner(object):
                     info.append(uilog[i])
                 if uilog[i].startswith('INSTRUMENTATION_STATUS_CODE: 15'):
                     output.append(uilog[i-1].split("=")[1])
-    
             for line in uilog:
                 if line.startswith('INSTRUMENTATION_STATUS: stack='):
                     info.append(line)
